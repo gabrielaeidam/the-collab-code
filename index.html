@@ -67,6 +67,7 @@ p { margin: 0; text-wrap: pretty; }
 .polaroid .cap .label { font-size: 9.5px; letter-spacing: .2em; }
 
 /* ---------- NAV ---------- */
+header.nav > .wrap { max-width: none; }
 header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgb(253 253 252 / 92%); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
 .nav .wrap { display: flex; align-items: center; gap: clamp(14px, 3vw, 44px); min-height: 76px; }
 .wordmark { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: .14em; text-decoration: none; white-space: nowrap; line-height: 1; }
@@ -88,13 +89,13 @@ header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; 
 }
 
 /* ---------- FILM ---------- */
-.film { position: relative; background: var(--cream); height: clamp(220px, 44vh, 480px); overflow: hidden; }
-.film video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+.film { position: relative; background: var(--cream); height: min(56.25vw, max(70vh, 320px)); overflow: hidden; }
+.film video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
 .film::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 60%, rgb(58 42 33 / 30%)); }
 .film-over { position: absolute; z-index: 2; left: var(--gutter); bottom: clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
 .film-name { font-family: var(--display); color: #fff; font-size: clamp(14px, 1.6vw, 18px); letter-spacing: .32em; text-transform: uppercase; }
 .film-toggle { position: absolute; z-index: 2; right: var(--gutter); bottom: clamp(16px, 3vw, 32px); font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #fff; background: rgb(255 255 255 / 14%); border: 1px solid rgb(255 255 255 / 55%); border-radius: 999px; padding: 7px 14px; cursor: pointer; backdrop-filter: blur(6px); }
-@media (max-width: 760px) { .film { height: 52vw; } }
+@media (max-width: 760px) { .film { height: 56.25vw; } }
 
 /* ---------- HERO ---------- */
 .hero { padding-block: clamp(44px, 6vw, 88px) clamp(56px, 7vw, 104px); }
@@ -143,8 +144,8 @@ header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; 
 .sig { display: flex; align-items: center; gap: 10px; }
 .kiss { width: 96px; height: auto; rotate: 6deg; mix-blend-mode: multiply; margin-top: -8px; }
 .numbers { background: var(--white); padding-block: clamp(44px, 6vw, 72px) 0; }
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 980px; margin-inline: auto; }
-.stat { padding: 4px clamp(8px, 2vw, 24px); display: grid; gap: 8px; justify-items: center; text-align: center; align-content: start; }
+.stats { display: flex; justify-content: center; align-items: flex-start; margin-inline: auto; }
+.stat { flex: 0 1 auto; min-width: 0; padding: 4px clamp(12px, 4vw, 64px); display: grid; gap: 8px; justify-items: center; text-align: center; align-content: start; }
 .stat + .stat { border-left: 1px solid var(--rule); }
 .num { font-family: var(--display); font-weight: 500; font-size: clamp(34px, 6vw, 76px); line-height: 1; color: var(--brown); display: flex; align-items: flex-end; letter-spacing: -.02em; }
 .num .suf { color: #a9cbe8; margin-left: 2px; }
@@ -156,7 +157,6 @@ header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; 
 .digit > span > b { font-weight: inherit; height: 1em; line-height: 1; }
 .stats.go .digit > span { transform: translateY(var(--to)); transition: transform 1.8s cubic-bezier(.2,.75,.15,1) var(--delay, 0s); }
 .stat .label { font-size: clamp(8.5px, 1.1vw, 11px); letter-spacing: .18em; }
-@media (min-width: 1000px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } .stat:nth-child(n) { border-left: 1px solid var(--rule); border-top: 0; padding-left: 18px; } .stat:first-child { border-left: 0; padding-left: 0; } }
 @media (max-width: 760px) { .gaby .wrap { grid-template-columns: minmax(0, 1fr); } .gaby .portrait { max-width: 300px; } }
 
 /* WHERE TO START */
@@ -224,6 +224,7 @@ details[open] .plus::after { transform: rotate(0deg); }
 
 .faq { max-width: 820px; margin: clamp(64px, 8vw, 104px) auto 0; }
 .faq > .label { margin-bottom: 14px; }
+.faq-cta { display: flex; justify-content: center; margin-top: clamp(36px, 5vw, 56px); }
 .faq details { border-top: 1px solid var(--rule); }
 .faq details:last-of-type { border-bottom: 1px solid var(--rule); }
 .faq summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 22px 0; }
@@ -415,6 +416,7 @@ footer .label { color: #d9cbbd; }
       <div class="faq" id="faq">
         <span class="label lined">FAQ</span>
         <div id="faq-list"></div>
+        <div class="faq-cta"><a class="btn" data-checkout href="#access">Request Access <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a></div>
       </div>
     </div>
   </section>
@@ -588,7 +590,7 @@ document.getElementById("foot-links").innerHTML = Object.entries(CONFIG.footer).
     [".stat", "up"],
     [".file", "up"],
     ["#access .ticket > *", ""],
-    [".faq > .label, .faq details", "up"],
+    [".faq > .label, .faq details, .faq-cta", "up"],
     [".foot-name", "up"],
     [".polaroid", "drop"]
   ];
@@ -608,8 +610,13 @@ document.getElementById("foot-links").innerHTML = Object.entries(CONFIG.footer).
 })();
 
 // film
+// film: always autoplay muted; retry if the browser held it back
 const vid = document.getElementById("film-video");
-if (matchMedia("(prefers-reduced-motion: reduce)").matches) { vid.removeAttribute("autoplay"); vid.pause(); }
+vid.muted = true; vid.defaultMuted = true; vid.playsInline = true;
+const tryPlay = () => { const p = vid.play(); if (p && p.catch) p.catch(() => {}); };
+tryPlay(); vid.addEventListener("loadeddata", tryPlay, { once: true });
+["touchstart", "pointerdown", "scroll", "keydown"].forEach(ev => addEventListener(ev, () => { if (vid.paused) tryPlay(); }, { once: true, passive: true }));
+document.addEventListener("visibilitychange", () => { if (!document.hidden && vid.paused) tryPlay(); });
 
 // mobile sticky bar
 const bar = document.getElementById("stickybar");
