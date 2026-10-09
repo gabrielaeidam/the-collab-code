@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Learn to work with brands. No following required. The Collab Code by Gaby Eidam.">
+<title>The Collab Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Jost:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a light studio set. White and cream paper, baby-blue accents from the lace,
+   brushed silver on clips, plaques, tabs and card edges, brown only for type and buttons. */
+:root {
+  color-scheme: light;
+  --white: #fdfdfc;
+  --cream: #f3f6f8;
+  --blue: #e3edf6;
+  --blue-2: #b9d1e6;
+  --brown: #3a2a21;
+  --brown-2: #4a3729;
+  --ink-soft: #6e5a4d;
+  --rule: rgb(58 42 33 / 13%);
+  --steel-1: #f4f5f7;
+  --steel-2: #b6bcc3;
+  --steel-3: #dde1e5;
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body: "Jost", "Futura", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --gutter: clamp(16px, 4vw, 48px);
+  --max: 1160px;
+  --brushed: repeating-linear-gradient(90deg, rgb(255 255 255 / 22%) 0 1px, transparent 1px 3px), linear-gradient(180deg, var(--steel-1), var(--steel-2) 55%, var(--steel-3));
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body { margin: 0; background: var(--white); color: var(--brown); font-family: var(--body); font-size: 16.5px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--brown); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+.wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+.label { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); }
+.label.lined { display: flex; align-items: center; gap: 14px; }
+.label.lined::before { content: ""; width: 32px; height: 1px; background: var(--steel-2); }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+p { margin: 0; text-wrap: pretty; }
+.soft { color: var(--ink-soft); font-weight: 300; font-size: 18px; max-width: 54ch; }
+
+/* silver */
+.plaque { display: inline-block; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .26em; text-transform: uppercase; color: var(--brown); padding: 6px 13px 5px; border-radius: 2px; background: var(--brushed); box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), inset 0 -1px 0 rgb(0 0 0 / 10%), 0 1px 2px rgb(58 42 33 / 20%); }
+.barcode { display: inline-block; height: 14px; width: 64px; flex: none; opacity: .7;
+  background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 3px, currentColor 3px 5px, transparent 5px 6px, currentColor 6px 7px, transparent 7px 10px, currentColor 10px 12px, transparent 12px 13px); }
+.fileno { display: inline-flex; align-items: center; gap: 10px; }
+.clip { position: absolute; width: 22px; height: 58px; top: -26px; left: 20%; z-index: 2; filter: drop-shadow(0 2px 2px rgb(58 42 33 / 25%)); }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; text-decoration: none; color: var(--white); background: var(--brown); padding: 16px 28px; border-radius: 999px; border: 1px solid var(--brown); box-shadow: 0 0 0 3px var(--white), 0 0 0 4px var(--steel-2); transition: background .2s, transform .2s; }
+.btn:hover { background: var(--brown-2); transform: translateY(-1px); }
+.btn svg { width: 14px; height: 14px; }
+.textlink { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid var(--steel-2); padding-bottom: 3px; }
+
+/* polaroids */
+.polaroid { position: relative; margin: 0; background: #fff; padding: 12px 12px 46px; box-shadow: 0 1px 1px rgb(58 42 33 / 8%), 0 24px 46px -22px rgb(58 42 33 / 38%); }
+.polaroid img { display: block; width: 100%; object-fit: cover; }
+.polaroid .cap { position: absolute; left: 14px; right: 14px; bottom: 15px; display: flex; justify-content: space-between; align-items: center; color: var(--ink-soft); }
+.polaroid .cap .label { font-size: 9.5px; letter-spacing: .2em; }
+
+/* ---------- NAV ---------- */
+header.nav > .wrap { max-width: none; }
+header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgb(253 253 252 / 92%); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
+.nav .wrap { display: flex; align-items: center; gap: clamp(14px, 3vw, 44px); min-height: 76px; }
+.wordmark { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: .14em; text-decoration: none; white-space: nowrap; line-height: 1; }
+.nav nav { flex: 1; min-width: 0; }
+.nav ul { display: flex; gap: clamp(14px, 2.4vw, 32px); list-style: none; margin: 0; padding: 0; align-items: center; justify-content: space-evenly; }
+.nav ul li.cta { margin-left: 0; }
+.nav ul li.cta a { color: var(--brown); font-weight: 500; }
+.nav ul a:not(.btn) { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); white-space: nowrap; }
+.nav ul a:not(.btn):hover { color: var(--brown); }
+.nav .btn { padding: 10px 18px; font-size: 11px; box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--steel-2); }
+@media (max-width: 520px) { .nav ul li.cta { display: none; } }
+@media (max-width: 760px) {
+  .nav .wrap { min-height: 58px; gap: 12px; justify-content: space-between; }
+  .nav ul { gap: 11px; }
+  .nav .btn { padding: 7px 11px; font-size: 9px; letter-spacing: .1em; box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--steel-2); }
+  .nav ul li.cta { margin-left: 4px; }
+  .nav ul a:not(.btn) { font-size: 9px; letter-spacing: .08em; }
+  .wordmark { font-size: 16px; letter-spacing: .08em; }
+}
+
+/* ---------- FILM ---------- */
+.film { position: relative; background: var(--cream); height: min(56.25vw, max(70vh, 320px)); overflow: hidden; }
+.film video::-webkit-media-controls, .film video::-webkit-media-controls-start-playback-button, .film video::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
+.film video { pointer-events: none; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.film::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 60%, rgb(58 42 33 / 30%)); }
+.film-over { position: absolute; z-index: 2; left: var(--gutter); bottom: clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.film-name { font-family: var(--display); color: #fff; font-size: clamp(14px, 1.6vw, 18px); letter-spacing: .32em; text-transform: uppercase; }
+.film-toggle { position: absolute; z-index: 2; right: var(--gutter); bottom: clamp(16px, 3vw, 32px); font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #fff; background: rgb(255 255 255 / 14%); border: 1px solid rgb(255 255 255 / 55%); border-radius: 999px; padding: 7px 14px; cursor: pointer; backdrop-filter: blur(6px); }
+@media (max-width: 760px) { .film { height: 56.25vw; } }
+
+/* ---------- HERO ---------- */
+.hero { padding-block: clamp(44px, 6vw, 88px) clamp(56px, 7vw, 104px); }
+.hero .wrap { display: grid; justify-items: center; text-align: center; }
+.hero-copy { display: grid; gap: 22px; justify-items: center; min-width: 0; max-width: 860px; }
+.product { font-family: var(--display); font-size: 15px; letter-spacing: .32em; text-transform: uppercase; }
+.hero h1 { font-size: clamp(40px, 5.4vw, 68px); line-height: 1.03; letter-spacing: -.02em; }
+.hero .desc { font-size: clamp(17px, 1.6vw, 19px); color: var(--ink-soft); max-width: 48ch; font-weight: 300; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; padding-top: 6px; }
+.support { font-size: 15px; color: var(--ink-soft); }
+.hero-photos { position: relative; aspect-ratio: 1 / 1.05; max-width: 480px; width: 100%; justify-self: center; }
+.hero-photos .polaroid { position: absolute; }
+.hp-main { width: 72%; right: 0; top: 0; transform: rotate(2deg); }
+.hp-main img { aspect-ratio: .95; }
+.hp-small { width: 46%; left: 0; bottom: 0; transform: rotate(-4deg); }
+.hp-small img { aspect-ratio: .8; }
+@media (max-width: 860px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } .hero-photos { max-width: 380px; } }
+
+/* ---------- TICKER (brushed silver) ---------- */
+.ticker { overflow: hidden; background: var(--brushed); border-block: 1px solid #c9ced3; }
+.ticker-track { display: flex; align-items: center; gap: 28px; width: max-content; padding-block: 13px; animation: tick 50s linear infinite; }
+.ticker span { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .28em; text-transform: uppercase; white-space: nowrap; color: var(--brown); }
+.ticker i { width: 5px; height: 5px; border-radius: 50%; background: var(--brown); opacity: .5; }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* ---------- sections ---------- */
+.sec { padding-block: clamp(64px, 9vw, 120px); }
+.sec h2 { font-size: clamp(32px, 4.2vw, 50px); line-height: 1.08; }
+.sec-head { display: grid; gap: 16px; max-width: 760px; }
+
+/* GABY */
+.gaby { background: var(--white); }
+.gaby .wrap { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(36px, 6vw, 96px); align-items: center; }
+.gaby .portrait { max-width: 400px; width: 100%; justify-self: center; }
+.gaby .polaroid { transform: rotate(-2deg); }
+.gaby .clip, .access .clip { left: 6%; }
+.gaby .polaroid { padding-bottom: 50px; }
+.gaby .polaroid .cap { bottom: 12px; align-items: flex-end; }
+.verse { display: inline-grid; gap: 2px; }
+.verse .bc { display: block; width: 0; min-width: 100%; height: 13px; opacity: .8; }
+.polaroid .cap .verse .label { font-size: 5px; font-weight: 400; letter-spacing: .2em; opacity: .8; }
+.gaby .polaroid img { aspect-ratio: .84; object-position: 50% 30%; }
+.gaby-copy { display: grid; gap: 20px; min-width: 0; }
+.gaby-copy h2 { font-size: clamp(34px, 4.4vw, 54px); line-height: 1.05; }
+.gaby-copy p { color: var(--ink-soft); font-weight: 300; font-size: 18px; max-width: 52ch; }
+.sig { display: flex; align-items: center; gap: 10px; }
+.kiss { width: 96px; height: auto; rotate: 6deg; mix-blend-mode: multiply; margin-top: -8px; }
+.numbers { background: var(--white); padding-block: clamp(44px, 6vw, 72px) 0; }
+.stats { display: flex; justify-content: center; align-items: flex-start; margin-inline: auto; }
+.stat { flex: 0 1 auto; min-width: 0; padding: 4px clamp(12px, 4vw, 64px); display: grid; gap: 8px; justify-items: center; text-align: center; align-content: start; }
+.stat + .stat { border-left: 1px solid var(--rule); }
+.num { font-family: var(--display); font-weight: 500; font-size: clamp(34px, 6vw, 76px); line-height: 1; color: var(--brown); display: flex; align-items: flex-end; letter-spacing: -.02em; }
+.num .suf { color: #a9cbe8; margin-left: 2px; }
+.num .pre { margin-left: 0; margin-right: 2px; }
+.num .val { font-variant-numeric: tabular-nums; }
+.sample-note { text-align: center; margin-top: 14px; color: var(--steel-2); }
+.digit { display: inline-block; height: 1em; overflow: hidden; }
+.digit > span { display: flex; flex-direction: column; transform: translateY(var(--from)); }
+.digit > span > b { font-weight: inherit; height: 1em; line-height: 1; }
+.stats.go .digit > span { transform: translateY(var(--to)); transition: transform 1.8s cubic-bezier(.2,.75,.15,1) var(--delay, 0s); }
+.stat .label { font-size: clamp(8.5px, 1.1vw, 11px); letter-spacing: .18em; }
+@media (max-width: 760px) { .gaby .wrap { grid-template-columns: minmax(0, 1fr); } .gaby .portrait { max-width: 300px; } }
+
+/* WHERE TO START */
+.start .intro { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: start; }
+.start .body { display: grid; gap: 16px; }
+.qs { list-style: none; margin: 0; padding: 0; display: grid; }
+.qs li { font-family: var(--display); color: var(--brown); font-size: clamp(20px, 2vw, 24px); line-height: 1.3; padding: 12px 0; border-top: 1px solid var(--rule); }
+.qs li:last-child { border-bottom: 1px solid var(--rule); }
+.start { background: var(--cream); }
+.pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: clamp(40px, 6vw, 64px); }
+.pillar { background: var(--white); border: 1px solid #d3d8dd; border-radius: 6px; padding: 24px; display: grid; gap: 10px; align-content: start; box-shadow: 0 0 0 3px var(--white), 0 0 0 4px var(--blue); }
+.pillar h3 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .26em; text-transform: uppercase; }
+.pillar p { color: var(--ink-soft); font-size: 16px; }
+.for { margin-top: 32px; font-size: 15px; color: var(--ink-soft); display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+@media (max-width: 760px) { .start .intro, .pillars { grid-template-columns: minmax(0, 1fr); } }
+
+/* FOR CREATORS, BY CREATORS */
+.creators { background: var(--white); color: var(--brown); padding-block: 0 clamp(64px, 9vw, 120px); }
+.creators .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 5vw, 72px); align-items: center; }
+.creators-label { font-size: clamp(12px, 1.3vw, 14px); color: var(--brown); white-space: nowrap; }
+.creators p { font-family: var(--display); font-size: clamp(17px, 1.7vw, 20px); line-height: 1.5; max-width: 64ch; color: var(--brown); }
+@media (max-width: 760px) { .creators .wrap { grid-template-columns: minmax(0, 1fr); } }
+
+/* CURRICULUM */
+.files { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 10px 18px; margin-top: clamp(36px, 5vw, 56px); }
+@media (max-width: 820px) { .files { grid-template-columns: minmax(0, 1fr); } }
+.file { position: relative; padding-top: 18px; }
+.file .tab { position: absolute; top: 0; left: 0; height: 19px; padding: 3px 12px 0; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .16em; border-radius: 4px 4px 0 0; color: var(--brown); background: var(--brushed); border: 1px solid #c4c9ce; border-bottom: 0; }
+.file details { background: var(--white); border: 1px solid #d3d8dd; border-radius: 0 6px 6px 6px; box-shadow: 0 8px 18px -14px rgb(58 42 33 / 30%); }
+.file details[open] { background: linear-gradient(180deg, var(--white), var(--cream)); }
+.file summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 20px; }
+.file summary::-webkit-details-marker { display: none; }
+.file summary h3 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; line-height: 1.5; }
+.file summary p { color: var(--ink-soft); font-size: 15.5px; margin-top: 3px; }
+.plus { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--steel-2); display: grid; place-items: center; flex: none; }
+.plus::before, .plus::after { content: ""; grid-area: 1 / 1; width: 10px; height: 1px; background: var(--brown); }
+.plus::after { transform: rotate(90deg); transition: transform .25s; }
+details[open] .plus::after { transform: rotate(0deg); }
+.steps { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.steps li::marker { color: var(--steel-2); }
+.file .more { display: grid; gap: 12px; font-size: 15.5px; font-weight: 300; border-top: 1px dashed var(--rule); padding: 16px 0 20px; margin-inline: 20px; max-width: 62ch; }
+
+.included { margin-top: 28px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px 28px; align-items: center; padding: 20px 24px; border-radius: 8px; background: var(--white); border: 1px solid #c9ced3; box-shadow: 0 0 0 4px var(--white), 0 0 0 5px var(--blue); }
+.included h3 { font-size: 21px; }
+.included p { color: var(--ink-soft); font-size: 15.5px; }
+@media (max-width: 760px) { .included { grid-template-columns: minmax(0, 1fr); } }
+
+/* ACCESS + FAQ */
+.access { background: var(--cream); }
+.access-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.access .polaroid { transform: rotate(-2.5deg); max-width: 380px; width: 100%; justify-self: center; }
+.access .polaroid img { aspect-ratio: .82; }
+.ticket { background: var(--white); border-radius: 10px; padding: clamp(26px, 4vw, 48px); display: grid; gap: 18px; border: 1px solid #c4c9ce; box-shadow: 0 0 0 5px var(--white), 0 0 0 6px var(--steel-2), 0 40px 70px -44px rgb(58 42 33 / 45%); position: relative; }
+.ticket h2 { font-size: clamp(34px, 4vw, 50px); line-height: 1.04; }
+.ticket .product { font-size: 13px; }
+.ticket > p { color: var(--ink-soft); font-weight: 300; max-width: 46ch; }
+.ticket .row { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; padding-top: 18px; border-top: 1px solid var(--rule); }
+.price { display: grid; gap: 2px; }
+.price strong { font-family: var(--display); font-weight: 500; font-size: 46px; line-height: 1; }
+.ticket .foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 15px; color: var(--ink-soft); padding-top: 14px; border-top: 1px dashed var(--rule); }
+.terms { display: grid; gap: 8px; }
+.terms div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 12px; font-size: 14.5px; }
+.micro { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+@media (max-width: 820px) { .access-grid { grid-template-columns: minmax(0, 1fr); } .access .polaroid { max-width: 280px; } }
+
+.faq { max-width: 820px; margin: clamp(64px, 8vw, 104px) auto 0; }
+.faq > .label { margin-bottom: 14px; }
+.faq-cta { display: flex; justify-content: center; margin-top: clamp(36px, 5vw, 56px); }
+.faq details { border-top: 1px solid var(--rule); }
+.faq details:last-of-type { border-bottom: 1px solid var(--rule); }
+.faq summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 22px 0; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary h3 { font-size: clamp(20px, 2.3vw, 25px); line-height: 1.25; }
+.faq .ans { padding: 0 48px 24px 0; color: var(--ink-soft); font-weight: 300; max-width: 64ch; }
+
+/* FOOTER */
+footer { background: var(--brown); color: var(--cream); padding-block: 44px 0; }
+footer .wrap { display: grid; gap: 14px; }
+.foot-name { font-family: var(--display); font-size: clamp(34px, 7vw, 84px); letter-spacing: .06em; line-height: 1; }
+.foot-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px; border-bottom: 1px solid rgb(249 245 239 / 22%); padding-bottom: 14px; margin-bottom: 22px; color: #d9cbbd; }
+.foot-row { justify-content: flex-start; }
+.foot-row .fileno { order: -1; }
+footer .label { color: #d9cbbd; }
+.foot-links { display: flex; flex-wrap: wrap; gap: 10px 24px; list-style: none; margin: 0; padding: 0; }
+.foot-links a { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; }
+
+/* MOBILE STICKY BAR */
+.stickybar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: none; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); background: rgb(255 254 251 / 96%); backdrop-filter: blur(8px); border-top: 1px solid #c9ced3; align-items: center; justify-content: space-between; gap: 14px; transform: translateY(110%); transition: transform .3s ease; }
+.stickybar.show { transform: none; }
+.stickybar .btn { padding: 12px 20px; font-size: 11px; }
+@media (max-width: 760px) { .stickybar { display: flex; } body { padding-bottom: 72px; } }
+
+
+/* ---------- MOTION ---------- */
+.film video { animation: filmIn 2.6s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes filmIn { from { scale: 1.08; opacity: .4; } to { scale: 1; opacity: 1; } }
+.film-over, .film-toggle { animation: fadeDown 1s .6s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes fadeDown { from { opacity: 0; translate: 0 -14px; } to { opacity: 1; translate: 0 0; } }
+
+.rv { opacity: 0; translate: 0 -22px; transition: opacity .9s ease var(--d, 0s), translate 1s cubic-bezier(.2,.7,.2,1) var(--d, 0s), rotate 1.1s cubic-bezier(.2,.7,.2,1) var(--d, 0s); }
+.rv.up { translate: 0 22px; }
+.rv.drop { translate: 0 -48px; rotate: -7deg; }
+.rv.in { opacity: 1; translate: 0 0; rotate: 0deg; }
+.label.lined.rv::before { width: 0; transition: width .9s cubic-bezier(.2,.7,.2,1) calc(var(--d, 0s) + .25s); }
+.label.lined.rv.in::before { width: 32px; }
+.polaroid.rv .clip { opacity: 0; translate: 0 -16px; transition: opacity .5s ease calc(var(--d, 0s) + .7s), translate .6s cubic-bezier(.3,1.6,.5,1) calc(var(--d, 0s) + .7s); }
+.polaroid.rv.in .clip { opacity: 1; translate: 0 0; }
+
+.polaroid { transition: box-shadow .4s ease; }
+.polaroid.rv.in:hover { rotate: 1.5deg; box-shadow: 0 1px 1px rgb(58 42 33 / 8%), 0 34px 60px -24px rgb(58 42 33 / 42%); }
+.file details { transition: translate .3s ease, box-shadow .3s ease; }
+.file:hover details { translate: 0 -2px; box-shadow: 0 14px 26px -16px rgb(58 42 33 / 35%); }
+.file .more p { animation: fadeDown .6s cubic-bezier(.2,.7,.2,1) both; }
+.file .more p:nth-child(2) { animation-delay: .08s; } .file .more p:nth-child(3) { animation-delay: .16s; }
+.faq .ans { animation: fadeDown .5s cubic-bezier(.2,.7,.2,1) both; }
+.btn svg { transition: translate .25s ease; } .btn:hover svg { translate: 3px 0; }
+@media (prefers-reduced-motion: reduce) { .rv, .rv.up, .rv.drop { opacity: 1; translate: none; rotate: none; } .polaroid.rv .clip { opacity: 1; translate: none; } }
+
+
+.rv-sec { opacity: 0; translate: 0 70px; transition: opacity 1s ease, translate 1.1s cubic-bezier(.16,.8,.2,1); }
+.rv-sec.in { opacity: 1; translate: 0 0; }
+@media (prefers-reduced-motion: reduce) { .rv-sec { opacity: 1; translate: none; } }
+
+/* SUCCESS */
+.success { position: fixed; inset: 0; z-index: 50; background: rgb(58 42 33 / 45%); display: grid; place-items: center; padding: 16px; }
+.success .ticket { max-width: 520px; width: 100%; text-align: center; justify-items: center; }
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#9aa0a6"/><stop offset=".45" stop-color="#f4f6f8"/><stop offset="1" stop-color="#8e949a"/></linearGradient></defs></svg>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="wordmark" href="#top">THE COLLAB CODE</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#inside">What’s Inside</a></li>
+        <li><a href="#gaby">Meet Gaby</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li class="cta"><a data-checkout href="#access">Get Access</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="film">
+    <video id="film-video" src="collab-code-film-hd.mp4" poster="collab-code-film-hd-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Gaby at her desk sorting files and signing documents"></video>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="product">The Collab Code</span>
+        <h1>Learn to work with brands. No following required.</h1>
+        <p class="desc">Learn how to turn your content into paid opportunities with brands, from your first portfolio samples to pitching, pricing, negotiating, and delivering the work.</p>
+        <p class="support">Start with your phone, products you already own, and a clear next step.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div class="ticker-track">
+    <span>Access granted</span><i></i><span>The Collab Code</span><i></i><span>For creators, by creators</span><i></i><span>Creator access</span><i></i><span>File no. 101626</span><i></i>
+    <span>Access granted</span><i></i><span>The Collab Code</span><i></i><span>For creators, by creators</span><i></i><span>Creator access</span><i></i><span>File no. 101626</span><i></i>
+    <span>Access granted</span><i></i><span>The Collab Code</span><i></i><span>For creators, by creators</span><i></i><span>Creator access</span><i></i><span>File no. 101626</span><i></i>
+    <span>Access granted</span><i></i><span>The Collab Code</span><i></i><span>For creators, by creators</span><i></i><span>Creator access</span><i></i><span>File no. 101626</span><i></i>
+  </div></div>
+
+  <!-- NUMBERS -->
+  <section class="numbers" aria-label="Gaby's numbers">
+    <div class="wrap"><div class="stats" id="stats" hidden></div></div>
+  </section>
+
+  <!-- GABY -->
+  <section class="sec gaby" id="gaby">
+    <div class="wrap">
+      <div class="portrait">
+        <figure class="polaroid">
+          <svg class="clip" viewBox="0 0 22 58" aria-hidden="true"><path d="M6 44V10a5 5 0 0 1 10 0v38a8 8 0 0 1-16 0V14" fill="none" stroke="url(#cg)" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <img src="gaby-blue.jpg" alt="Gaby Eidam in a baby blue blouse and lace tights, on a vintage phone surrounded by brand paperwork">
+          <figcaption class="cap"><span class="label">@gabyeidam</span><span class="verse"><svg class="bc" viewBox="0 0 153 10" preserveAspectRatio="none" aria-hidden="true" fill="currentColor"><rect x="0" width="2" height="10"/><rect x="4" width="1" height="10"/><rect x="6" width="4" height="10"/><rect x="11" width="2" height="10"/><rect x="16" width="1" height="10"/><rect x="18" width="1" height="10"/><rect x="20" width="2" height="10"/><rect x="23" width="1" height="10"/><rect x="25" width="4" height="10"/><rect x="30" width="2" height="10"/><rect x="33" width="1" height="10"/><rect x="37" width="1" height="10"/><rect x="39" width="1" height="10"/><rect x="43" width="2" height="10"/><rect x="48" width="1" height="10"/><rect x="52" width="1" height="10"/><rect x="54" width="4" height="10"/><rect x="59" width="2" height="10"/><rect x="63" width="4" height="10"/><rect x="69" width="2" height="10"/><rect x="72" width="3" height="10"/><rect x="78" width="2" height="10"/><rect x="82" width="1" height="10"/><rect x="84" width="1" height="10"/><rect x="88" width="1" height="10"/><rect x="90" width="1" height="10"/><rect x="92" width="4" height="10"/><rect x="97" width="3" height="10"/><rect x="102" width="3" height="10"/><rect x="108" width="1" height="10"/><rect x="111" width="1" height="10"/><rect x="113" width="1" height="10"/><rect x="115" width="2" height="10"/><rect x="118" width="4" height="10"/><rect x="123" width="4" height="10"/><rect x="128" width="1" height="10"/><rect x="132" width="3" height="10"/><rect x="136" width="2" height="10"/><rect x="140" width="3" height="10"/><rect x="145" width="3" height="10"/><rect x="149" width="2" height="10"/><rect x="152" width="1" height="10"/></svg><span class="label">Jeremiah 29:11</span></span></figcaption>
+        </figure>
+      </div>
+      <div class="gaby-copy">
+        <h2>Hi, I’m Gaby!<br>Let’s get you brand-deal ready.</h2>
+        <p>I created The Collab Code to help you understand what to create, how to approach brands, what to charge, and how to handle the collaboration once they say yes.</p>
+        <p>You don’t need a large following or previous brand deals to begin.<br>Start where you are.</p>
+        <p class="sig">XO, your brand deal bestie <img class="kiss" src="kiss.png" alt="" aria-hidden="true"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHERE TO START -->
+  <section class="sec start">
+    <div class="wrap">
+      <div class="intro">
+        <div class="sec-head">
+          <span class="label lined">Where to start</span>
+          <h2>You want to work with brands? Here’s where to start.</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRICULUM -->
+  <section class="sec" id="inside">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label lined">Inside The Collab Code</span>
+        <h2>What you’ll learn. What you’ll use.</h2>
+        <p class="soft">Everything you’d otherwise spend months piecing together from saved posts and trial and error: what to create, how to pitch, what to charge, and how to deliver. Laid out in order, so you always know your next move.</p>
+      </div>
+
+      <div class="files" id="files"></div>
+
+    </div>
+  </section>
+
+  <!-- FOR CREATORS, BY CREATORS -->
+  <section class="creators">
+    <div class="wrap">
+      <span class="label lined creators-label">For creators, by creators</span>
+      <p>Every lesson inside The Collab Code is taught by a creator who is succeeding in the brand world right now and has mastered the exact topic they teach. Instead of piecing it together from a dozen different people, you get their inside insight and the exact roadmap they follow, step by step, so you have everything you need in one place.</p>
+    </div>
+  </section>
+
+  <!-- ACCESS + FAQ -->
+  <section class="sec access" id="access">
+    <div class="wrap">
+      <div class="access-grid">
+        <figure class="polaroid">
+          <svg class="clip" viewBox="0 0 22 58" aria-hidden="true"><path d="M6 44V10a5 5 0 0 1 10 0v38a8 8 0 0 1-16 0V14" fill="none" stroke="url(#cg)" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <img src="access-photo.jpg" alt="A Creator Access badge on a lanyard resting on a laptop keyboard, beside a silver lipstick" style="object-position: 50% 30%">
+          <figcaption class="cap"><span class="label">Access granted</span><span class="barcode"></span></figcaption>
+        </figure>
+        <div class="ticket">
+          <span class="label">Creator access</span>
+          <h2>Your next move starts here.</h2>
+          <span class="product">The Collab Code</span>
+          <p>Learn the creative skills and business decisions behind working with brands. Lessons, specialist guidance, and resources you can put to work.</p>
+          <div class="row">
+            <div class="price" data-price-block><strong data-price></strong></div>
+            <a class="btn" data-checkout href="#access">Get Access to The Collab Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+          </div>
+          <p class="micro" data-micro hidden></p>
+          <div class="terms" id="terms" hidden></div>
+          <div class="foot">
+            <span>Your roadmap from beginner to brand-ready.</span>
+            <span class="fileno label"><span class="barcode"></span>File no. 101626</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq" id="faq">
+        <span class="label lined">FAQ</span>
+        <div id="faq-list"></div>
+        <div class="faq-cta"><a class="btn" data-checkout href="#access">Request Access <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-name">THE COLLAB CODE</div>
+    <div class="foot-row">
+      <ul class="foot-links" id="foot-links"></ul>
+      <span class="fileno label"><span class="barcode"></span>File no. 101626</span>
+    </div>
+  </div>
+</footer>
+
+<div class="stickybar" id="stickybar" aria-label="Purchase">
+  <span class="product" style="font-size:12px">The Collab Code</span>
+  <a class="btn" data-checkout href="#access">Get Access</a>
+</div>
+
+<div class="success" id="success" hidden>
+  <div class="ticket">
+    <span class="fileno label"><span class="barcode"></span>File no. 101626</span>
+    <h2>YOU’RE IN.<br>ACCESS GRANTED.</h2>
+    <p>Welcome to The Collab Code. Start with Your First Five Steps.</p>
+    <a class="btn" id="enter" href="#top">Enter The Collab Code</a>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   EDITOR SETTINGS — fill these in before going live.
+   Anything left empty stays hidden from visitors.
+   ============================================================ */
+const CONFIG = {
+  price: "$157",            // shown only in the purchase section at the bottom
+  checkoutUrl: "",          // Commas / Stan checkout link. Until set, buttons scroll to the purchase card.
+  courseUrl: "",            // where "Enter The Collab Code" goes after purchase
+  // Gaby's numbers, shown right under "Hi, I'm Gaby". Update from Instagram/TikTok insights.
+  // [number, suffix, label]. Suffix shows in blue, e.g. "K+", "M+", "+".
+  stats: [[82, "K+", "Instagram followers"], [62, "+", "Brands worked with"], [150, "K+", "Earned from brand deals", "$"]],
+  // While the real numbers are 0, preview the count-up with these sample targets (marked "Sample numbers" on the page).
+  sampleStats: [100, 50, 1],
+  faqAvailability: "",      // "Are all lessons available when I join?"
+  faqAccess: "",            // "How long will I have access?"
+  faqRefund: "",            // "What is the refund policy?"
+  accessTerms: [],          // e.g. [["Access", "..."], ["Release schedule", "..."]]
+  checkoutNote: "",         // short true line under the buy button, e.g. "Instant access"
+  footer: { memberLogin: "", support: "", terms: "", privacy: "", refund: "" }
+};
+
+const CURRICULUM = [
+  ["Start Here: Your First Moves", "Go from brand-new beginner to brand-ready, one clear step at a time.", [
+    "Inside The Collab Code, you get a clear roadmap that takes you from complete beginner, even if you’re brand new to the brand world, all the way to brand-ready in five simple steps. We’ll cover:",
+    ["How to choose your direction", "How to create your first samples with products you already own", "How to build your portfolio", "How to prepare to approach brands", "How to send your first pitches"],
+    "You’ll also learn the difference between UGC and influencer content, and how to begin without waiting for the perfect niche."]],
+  ["Niche Playbooks", "Your step-by-step plan to break into the niche you actually want.", [
+    "Know exactly which niche you want to create in but not sure how to break in? Each playbook takes you from day one to brand-ready in that specific space, so you know exactly what to do to stand out. You’ll learn:",
+    ["What to post on your Instagram to attract the brands in your niche", "Which samples belong in your portfolio for that niche", "The exact videos to film so brands in that space can picture working with you", "The editing styles that fit that niche and make your content look on-brand", "How to approach and pitch the brands in that space"],
+    "Everything you need to start creating in your niche and take off, from beginning to end."]],
+  ["Know the Deal", "Understand what brands are asking for.", [
+    "Learn the differences between gifting and paid collaborations, plus the language used in brand projects.",
+    "Understand usage rights, paid amplification, whitelisting or partnership ads, exclusivity, raw footage, and licensing so you can better assess the scope."]],
+  ["Create Brand-Worthy Content", "Learn what to film and how to film it.", [
+    "Learn how to create the content brands are actually paying for, including:",
+    ["Testimonials", "Product demos", "Tutorials", "Problem and solution videos", "Unboxings", "Lifestyle content", "Listicles"],
+    "Then level up every video with scroll-stopping hooks, scripting, shot planning, lighting, framing, product placement, close-ups, and B-roll, so your content looks polished and brand-ready."]],
+  ["Your AI Creator Assistant", "Turn AI into the assistant that handles the busywork of every brand deal.", [
+    "Learn how to use AI as your creator assistant from the moment a deal lands, so you spend less time on admin and more time creating. You’ll learn how to use it to:",
+    ["Turn a brand brief into content ideas and scripts that don’t sound like ads", "Write scripts that are ready for brand approval", "Pull your must-have shots straight from the brief and contract into a shot list", "Spot the do’s and don’ts, the things you can’t include, before you film", "Pull out the key points and notes that matter most", "Review a contract and flag anything that needs a closer look"]]],
+  ["Build Your Portfolio", "Give brands a clear look at your work.", [
+    "After learning how to create brand-worthy sample content, you’ll learn how to:",
+    ["Choose the samples that show off your skills", "Organize the essential information brands look for", "Build your portfolio using the included template"],
+    "You’ll also get the exact portfolio template behind over $60,000 in brand deals and UGC work, included free with The Collab Code. No starting from scratch, just plug in your work and start pitching."]],
+  ["Use TikTok to Land Brands", "Turn TikTok into a steady source of PR packages and brand deals.", [
+    "Learn how to use TikTok to show what you can create, get on brands’ radar, and open doors to collaborations, from a creator who is landing five-figure brand deals on TikTok right now with under 20,000 followers.",
+    "You’ll get the inside scoop on how to keep PR packages coming in, land brand deals straight from TikTok, and get brands to sponsor your videos and ads, including on TikTok Shop."]],
+  ["Pitching + Follow-Ups", "The pitches brands actually reply to, from subject line to follow-up.", [
+    "This isn’t a generic email template. You’ll get the actual pitch formats that get brands to reply: the subject lines that get opened, the strategic email structures that make your idea easy to say yes to, and how to tailor each one to the brand.",
+    "Then you’ll learn a follow-up schedule that actually works, so your outreach keeps moving and turns into consistent paid work instead of one-off wins.",
+    "Plus how to research opportunities, set up your creator email, share your portfolio, and track every pitch you send."]],
+  ["Creator Platforms + Get PR’d", "An inside look at the creator platforms that are actually working.", [
+    "Most creators join platforms without knowing which ones are worth their time, then never hear back. This is an inside look at the platforms that are actually working right now.",
+    "You’ll learn which platforms to join, which ones are best for gifting, PR, and paid collaborations, how to get responses, and how to get booked, so you’re set up for success from the start.",
+    "Plus, how to approach PR opportunities: PR versus gifting versus guaranteed content, what to include in your outreach, how to follow up, and how to build relationships that can lead to future paid work."]],
+  ["Negotiate Like You Mean It", "Price, package, and negotiate your content.", [
+    "Understand your base creation fee and how usage, partnership ads, exclusivity, raw footage, extra hooks or variations, and production expenses can affect a quote.",
+    "Learn how to package your offer, respond to counteroffers, negotiate project details, and communicate boundaries.",
+    "Use the pricing calculator to work through the scope of a project."]],
+  ["Your Content System", "Keep your content and brand projects organized.", [
+    "Set up a simple system to plan, film, organize, and keep track of your content, so every project stays clear from brief to final files."]],
+  ["Creator Money 101", "Learn what to do with your money once brands start paying you.", [
+    "Making money with brands is only half of it. Once the payments start coming in, most creators don’t know what to do next, and this is the part almost nobody in the creator space teaches.",
+    "Creator Money 101 shows you how to manage the money you make and set yourself up for success financially: how much to pay yourself, how to separate your business and personal money, and how to keep your records organized.",
+    "You’ll also get an introduction to LLC considerations, EINs, and business banking, so your creator work is set up like a real business."]]
+];
+
+const FAQ = [
+  ["I’ve never worked with a brand before. Can I still do this?", "Yes. The Collab Code starts at the very beginning with Your First Five Steps, then walks you through creating samples, building your portfolio, and sending your first pitches."],
+  ["Do I need a big following?", "No. UGC focuses on content a brand can use, while influencer collaborations also involve your audience. You’ll learn how to approach both, whatever your follower count."],
+  ["What if I’m brand new to creating content?", "That’s okay. You’ll learn what to create and how to film it: formats, hooks, scripting, lighting, and framing, starting with the phone you already have."],
+  ["I don’t have a portfolio yet. Is that okay?", "Yes. You’ll build it inside, using the included portfolio template and samples you create with products you already own."],
+  ["Do I need expensive equipment?", "No. You can begin with your phone. The filming lessons help you work on lighting, framing, angles, and showing the product clearly."],
+  ["I’m completely new to the brand world. Where do I even start?", "With Your First Five Steps: choose your direction, create your first samples, build your portfolio, prepare to approach brands, and send your first pitches."],
+  ["Are all lessons available when I join?", CONFIG.faqAvailability],
+  ["How long will I have access?", CONFIG.faqAccess],
+  ["What is the refund policy?", CONFIG.faqRefund]
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+document.getElementById("files").innerHTML = CURRICULUM.map(([t, prev, paras], i) => `
+  <div class="file">
+    <span class="tab">${String(i + 1).padStart(2, "0")}</span>
+    <details>
+      <summary><div><h3>${esc(t)}</h3><p>${esc(prev)}</p></div><span class="plus" aria-hidden="true"></span></summary>
+      <div class="more">${paras.map(p => Array.isArray(p) ? `<ul class="steps">${p.map(li => `<li>${esc(li)}</li>`).join("")}</ul>` : `<p>${esc(p)}</p>`).join("")}</div>
+    </details>
+  </div>`).join("");
+
+document.getElementById("faq-list").innerHTML = FAQ.filter(([, a]) => a).map(([q, a]) => `
+  <details>
+    <summary><h3>${esc(q)}</h3><span class="plus" aria-hidden="true"></span></summary>
+    <p class="ans">${esc(a)}</p>
+  </details>`).join("");
+
+document.querySelectorAll("[data-price]").forEach(el => el.textContent = CONFIG.price);
+if (!CONFIG.price) document.querySelectorAll("[data-price-block]").forEach(el => el.hidden = true);
+if (CONFIG.checkoutUrl) document.querySelectorAll("[data-checkout]").forEach(a => { a.href = CONFIG.checkoutUrl; a.rel = "noopener"; });
+if (CONFIG.checkoutNote) document.querySelectorAll("[data-micro]").forEach(el => { el.textContent = CONFIG.checkoutNote; el.hidden = false; });
+if (CONFIG.accessTerms.length) {
+  const t = document.getElementById("terms");
+  t.innerHTML = CONFIG.accessTerms.map(([k, v]) => `<div><span class="label">${esc(k)}</span><span>${esc(v)}</span></div>`).join("");
+  t.hidden = false;
+}
+
+// stats: fade up and count from 0 to the number, like the inspo
+if (CONFIG.stats.length) {
+  const st = document.getElementById("stats");
+  const sample = CONFIG.stats.every(([n]) => !n) && CONFIG.sampleStats;
+  const targets = CONFIG.stats.map(([n], i) => sample ? CONFIG.sampleStats[i] : n);
+  st.innerHTML = CONFIG.stats.map(([, suf, l, pre = ""], i) => `<div class="stat"><span class="num" aria-label="${esc(pre + targets[i] + suf)}">${pre ? `<span class="suf pre">${esc(pre)}</span>` : ""}<span class="val" data-to="${targets[i]}">${targets[i]}</span><span class="suf">${esc(suf)}</span></span><span class="label">${esc(l)}</span></div>`).join("");
+  st.hidden = false;
+  if (sample) st.insertAdjacentHTML("afterend", '<p class="label sample-note">Sample numbers · replace before launch</p>');
+  const run = () => st.querySelectorAll(".val").forEach((el, i) => {
+    const to = +el.dataset.to, dec = (String(to).split(".")[1] || "").length, t0 = performance.now() + i * 150, dur = 2000;
+    el.textContent = (0).toFixed(dec);
+    const tick = now => { const k = Math.min(1, Math.max(0, (now - t0) / dur)), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = (to * e).toFixed(dec); if (k < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  });
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { run(); o.disconnect(); } }, { threshold: .4 }).observe(st);
+  }
+}
+
+const labels = { memberLogin: "Member Login", support: "Support", terms: "Terms", privacy: "Privacy Policy", refund: "Refund Policy" };
+document.getElementById("foot-links").innerHTML = Object.entries(CONFIG.footer).filter(([, u]) => u).map(([k, u]) => `<li><a href="${esc(u)}">${labels[k]}</a></li>`).join("");
+
+
+// scroll reveal: text settles down into place, lists rise, Polaroids drop in and clip on
+(() => {
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const groups = [
+    [".hero-copy > *", ""],
+    [".sec-head > *", ""],
+    [".gaby-copy > *", ""],
+    [".start .body > p, .for", "up"],
+    [".qs li", "up"],
+    [".creators .wrap > *", ""],
+    [".stat", "up"],
+    [".file", "up"],
+    ["#access .ticket > *", ""],
+    [".faq > .label, .faq details, .faq-cta", "up"],
+    [".foot-name", "up"],
+    [".polaroid", "drop"]
+  ];
+  const els = [];
+  document.querySelectorAll("main > section:not(.hero), main > .ticker, footer").forEach(sec => { sec.classList.add("rv-sec"); els.push(sec); });
+  groups.forEach(([sel, kind]) => {
+    const byParent = new Map();
+    document.querySelectorAll(sel).forEach(el => {
+      const k = el.parentElement; const i = byParent.get(k) || 0; byParent.set(k, i + 1);
+      el.classList.add("rv"); if (kind) el.classList.add(kind);
+      el.style.setProperty("--d", Math.min(i * 0.09, 0.6).toFixed(2) + "s");
+      els.push(el);
+    });
+  });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  requestAnimationFrame(() => els.forEach(el => io.observe(el)));
+})();
+
+// film
+// film: always autoplay muted; retry if the browser held it back
+const vid = document.getElementById("film-video");
+vid.muted = true; vid.defaultMuted = true; vid.playsInline = true;
+const tryPlay = () => { const p = vid.play(); if (p && p.catch) p.catch(() => {}); };
+tryPlay(); vid.addEventListener("loadeddata", tryPlay, { once: true });
+["touchstart", "pointerdown", "scroll", "keydown"].forEach(ev => addEventListener(ev, () => { if (vid.paused) tryPlay(); }, { once: true, passive: true }));
+document.addEventListener("visibilitychange", () => { if (!document.hidden && vid.paused) tryPlay(); });
+
+// mobile sticky bar
+const bar = document.getElementById("stickybar");
+let heroGone = false, accessOn = false;
+const sync = () => bar.classList.toggle("show", heroGone && !accessOn);
+new IntersectionObserver(([e]) => { heroGone = !e.isIntersecting && e.boundingClientRect.top < 0; sync(); }).observe(document.querySelector(".hero"));
+new IntersectionObserver(([e]) => { accessOn = e.isIntersecting; sync(); }, { rootMargin: "0px 0px -30% 0px" }).observe(document.getElementById("access"));
+
+if (location.hash === "#youre-in" && CONFIG.courseUrl) {
+  document.getElementById("enter").href = CONFIG.courseUrl;
+  document.getElementById("success").hidden = false;
+}
+</script>
+
+</body>
+</html>
