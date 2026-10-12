@@ -90,7 +90,8 @@ header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; 
 
 /* ---------- FILM ---------- */
 .film { position: relative; background: var(--cream); height: min(56.25vw, max(70vh, 320px)); overflow: hidden; }
-.film video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.film video::-webkit-media-controls, .film video::-webkit-media-controls-start-playback-button, .film video::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
+.film video { pointer-events: none; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
 .film::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 60%, rgb(58 42 33 / 30%)); }
 .film-over { position: absolute; z-index: 2; left: var(--gutter); bottom: clamp(16px, 3vw, 32px); display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
 .film-name { font-family: var(--display); color: #fff; font-size: clamp(14px, 1.6vw, 18px); letter-spacing: .32em; text-transform: uppercase; }
@@ -184,6 +185,15 @@ header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; 
 .files { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 10px 18px; margin-top: clamp(36px, 5vw, 56px); }
 @media (max-width: 820px) { .files { grid-template-columns: minmax(0, 1fr); } }
 .file { position: relative; padding-top: 18px; }
+.resources { margin-top: clamp(36px, 5vw, 56px); background: var(--white); border: 1px solid #c9ced3; border-radius: 8px; padding: clamp(22px, 3vw, 32px); box-shadow: 0 0 0 4px var(--white), 0 0 0 5px var(--blue); }
+.res-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; margin-bottom: 14px; }
+.resources h3 { font-size: clamp(22px, 2.4vw, 28px); line-height: 1.2; }
+.res-value { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--brown); background: var(--blue); padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
+.res-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.res-list li { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 6px 24px; padding: 12px 0; border-top: 1px solid var(--rule); font-size: 15.5px; }
+.res-name { font-family: var(--mono); font-size: 11.5px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; padding-top: 3px; }
+.res-list li span:last-child { color: var(--ink-soft); font-weight: 300; }
+@media (max-width: 620px) { .res-list li { grid-template-columns: minmax(0, 1fr); } }
 .file .tab { position: absolute; top: 0; left: 0; height: 19px; padding: 3px 12px 0; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .16em; border-radius: 4px 4px 0 0; color: var(--brown); background: var(--brushed); border: 1px solid #c4c9ce; border-bottom: 0; }
 .file details { background: var(--white); border: 1px solid #d3d8dd; border-radius: 0 6px 6px 6px; box-shadow: 0 8px 18px -14px rgb(58 42 33 / 30%); }
 .file details[open] { background: linear-gradient(180deg, var(--white), var(--cream)); }
@@ -207,7 +217,7 @@ details[open] .plus::after { transform: rotate(0deg); }
 /* ACCESS + FAQ */
 .access { background: var(--cream); }
 .access-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
-.access .polaroid { transform: rotate(-2.5deg); max-width: 380px; width: 100%; justify-self: center; }
+.access .polaroid { transform: rotate(-2.5deg); max-width: 380px; width: 100%; justify-self: center; margin-top: -28px; }
 .access .polaroid img { aspect-ratio: .82; }
 .ticket { background: var(--white); border-radius: 10px; padding: clamp(26px, 4vw, 48px); display: grid; gap: 18px; border: 1px solid #c4c9ce; box-shadow: 0 0 0 5px var(--white), 0 0 0 6px var(--steel-2), 0 40px 70px -44px rgb(58 42 33 / 45%); position: relative; }
 .ticket h2 { font-size: clamp(34px, 4vw, 50px); line-height: 1.04; }
@@ -220,7 +230,7 @@ details[open] .plus::after { transform: rotate(0deg); }
 .terms { display: grid; gap: 8px; }
 .terms div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 12px; font-size: 14.5px; }
 .micro { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
-@media (max-width: 820px) { .access-grid { grid-template-columns: minmax(0, 1fr); } .access .polaroid { max-width: 280px; } }
+@media (max-width: 820px) { .access-grid { grid-template-columns: minmax(0, 1fr); } .access .polaroid { max-width: 280px; margin-top: 0; margin-bottom: 36px; } }
 
 .faq { max-width: 820px; margin: clamp(64px, 8vw, 104px) auto 0; }
 .faq > .label { margin-bottom: 14px; }
@@ -306,7 +316,7 @@ footer .label { color: #d9cbbd; }
 
 <main id="top">
   <div class="film">
-    <video id="film-video" src="desk-film-2.mp4" poster="desk-film-2-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Gaby at her desk sorting files and signing documents"></video>
+    <video id="film-video" src="collab-code-film-hd.mp4" poster="collab-code-film-hd-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Gaby at her desk sorting files and signing documents"></video>
   </div>
 
   <!-- HERO -->
@@ -374,6 +384,16 @@ footer .label { color: #d9cbbd; }
       </div>
 
       <div class="files" id="files"></div>
+      <div class="resources">
+        <div class="res-head"><h3>Free resources included to help you get started.</h3><span class="res-value">A $200 value, yours free</span></div>
+        <ul class="res-list">
+          <li><span class="res-name">Portfolio template</span><span>Build a portfolio that gives brands a clear look at your work.</span></li>
+          <li><span class="res-name">Pricing calculator</span><span>Work through your project scope and additional fees.</span></li>
+          <li><span class="res-name">Brand list</span><span>Start researching brands to approach.</span></li>
+          <li><span class="res-name">Rate card template</span><span>Present your rates and services.</span></li>
+          <li><span class="res-name">Invoice template</span><span>Prepare invoices for your creator projects.</span></li>
+        </ul>
+      </div>
 
     </div>
   </section>
@@ -402,7 +422,7 @@ footer .label { color: #d9cbbd; }
           <p>Learn the creative skills and business decisions behind working with brands. Lessons, specialist guidance, and resources you can put to work.</p>
           <div class="row">
             <div class="price" data-price-block><strong data-price></strong></div>
-            <a class="btn" data-checkout href="#access">Get Access to The Collab Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+            <a class="btn" data-checkout href="#access">Access Now <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
           </div>
           <p class="micro" data-micro hidden></p>
           <div class="terms" id="terms" hidden></div>
@@ -461,7 +481,7 @@ const CONFIG = {
   // While the real numbers are 0, preview the count-up with these sample targets (marked "Sample numbers" on the page).
   sampleStats: [100, 50, 1],
   faqAvailability: "",      // "Are all lessons available when I join?"
-  faqAccess: "",            // "How long will I have access?"
+  faqAccess: "You get lifetime access to The Collab Code, so you can go through the lessons at your own pace and come back to them anytime.",            // "How long will I have access?"
   faqRefund: "",            // "What is the refund policy?"
   accessTerms: [],          // e.g. [["Access", "..."], ["Release schedule", "..."]]
   checkoutNote: "",         // short true line under the buy button, e.g. "Instant access"
@@ -472,18 +492,25 @@ const CURRICULUM = [
   ["Start Here: Your First Moves", "Go from brand-new beginner to brand-ready, one clear step at a time.", [
     "Inside The Collab Code, you get a clear roadmap that takes you from complete beginner, even if you’re brand new to the brand world, all the way to brand-ready in five simple steps. We’ll cover:",
     ["How to choose your direction", "How to create your first samples with products you already own", "How to build your portfolio", "How to prepare to approach brands", "How to send your first pitches"],
-    "You’ll also learn the difference between UGC and influencer content, and how to begin without waiting for the perfect niche."]],
+    "You’ll also learn the difference between UGC and influencer content, and how to begin without waiting for the perfect niche.",
+    "Begin with a welcome video and Your First Five Steps, followed by UGC vs. Influencer Content and Pick Your Niche."]],
   ["Niche Playbooks", "Your step-by-step plan to break into the niche you actually want.", [
+    "Includes the Beauty UGC Playbook, Tech UGC Playbook, and The Restaurant Edit.",
     "Know exactly which niche you want to create in but not sure how to break in? Each playbook takes you from day one to brand-ready in that specific space, so you know exactly what to do to stand out. You’ll learn:",
     ["What to post on your Instagram to attract the brands in your niche", "Which samples belong in your portfolio for that niche", "The exact videos to film so brands in that space can picture working with you", "The editing styles that fit that niche and make your content look on-brand", "How to approach and pitch the brands in that space"],
     "Everything you need to start creating in your niche and take off, from beginning to end."]],
+  ["AI UGC Studio", "Make realistic AI videos that showcase products and attract brands.", [
+    "Imagine creating scroll-stopping product videos without setting up a full shoot. In AI UGC Studio, you’ll learn how to create your own AI avatar and use it to make content that looks real, shows off products beautifully, and gets brands’ attention.",
+    "Use it to build your portfolio faster, show brands exactly what you can create for them, and create more content for the brands you work with, even on the days you’re not on camera."]],
   ["Know the Deal", "Understand what brands are asking for.", [
     "Learn the differences between gifting and paid collaborations, plus the language used in brand projects.",
-    "Understand usage rights, paid amplification, whitelisting or partnership ads, exclusivity, raw footage, and licensing so you can better assess the scope."]],
+    "Understand usage rights, paid amplification, whitelisting or partnership ads, exclusivity, raw footage, and licensing so you can better assess the scope.",
+    "Includes Gifting vs. Paid and Speak the Brand."]],
   ["Create Brand-Worthy Content", "Learn what to film and how to film it.", [
     "Learn how to create the content brands are actually paying for, including:",
     ["Testimonials", "Product demos", "Tutorials", "Problem and solution videos", "Unboxings", "Lifestyle content", "Listicles"],
-    "Then level up every video with scroll-stopping hooks, scripting, shot planning, lighting, framing, product placement, close-ups, and B-roll, so your content looks polished and brand-ready."]],
+    "Then level up every video with scroll-stopping hooks, scripting, shot planning, lighting, framing, product placement, close-ups, and B-roll, so your content looks polished and brand-ready.",
+    "You’ll see filming and editing demonstrated inside the niche playbooks, so you can learn how to create content for the specific industry you want to work in."]],
   ["Your AI Creator Assistant", "Turn AI into the assistant that handles the busywork of every brand deal.", [
     "Learn how to use AI as your creator assistant from the moment a deal lands, so you spend less time on admin and more time creating. You’ll learn how to use it to:",
     ["Turn a brand brief into content ideas and scripts that don’t sound like ads", "Write scripts that are ready for brand approval", "Pull your must-have shots straight from the brief and contract into a shot list", "Spot the do’s and don’ts, the things you can’t include, before you film", "Pull out the key points and notes that matter most", "Review a contract and flag anything that needs a closer look"]]],
@@ -491,10 +518,10 @@ const CURRICULUM = [
     "After learning how to create brand-worthy sample content, you’ll learn how to:",
     ["Choose the samples that show off your skills", "Organize the essential information brands look for", "Build your portfolio using the included template"],
     "You’ll also get the exact portfolio template behind over $60,000 in brand deals and UGC work, included free with The Collab Code. No starting from scratch, just plug in your work and start pitching."]],
-  ["Use TikTok to Land Brands", "Turn TikTok into a steady source of PR packages and brand deals.", [
+  ["The TikTok Edit", "Turn TikTok into a steady source of PR packages and brand deals.", [
     "Learn how to use TikTok to show what you can create, get on brands’ radar, and open doors to collaborations, from a creator who is landing five-figure brand deals on TikTok right now with under 20,000 followers.",
     "You’ll get the inside scoop on how to keep PR packages coming in, land brand deals straight from TikTok, and get brands to sponsor your videos and ads, including on TikTok Shop."]],
-  ["Pitching + Follow-Ups", "The pitches brands actually reply to, from subject line to follow-up.", [
+  ["The Pitch Edit", "The pitches brands actually reply to, from subject line to follow-up.", [
     "This isn’t a generic email template. You’ll get the actual pitch formats that get brands to reply: the subject lines that get opened, the strategic email structures that make your idea easy to say yes to, and how to tailor each one to the brand.",
     "Then you’ll learn a follow-up schedule that actually works, so your outreach keeps moving and turns into consistent paid work instead of one-off wins.",
     "Plus how to research opportunities, set up your creator email, share your portfolio, and track every pitch you send."]],
@@ -506,8 +533,6 @@ const CURRICULUM = [
     "Understand your base creation fee and how usage, partnership ads, exclusivity, raw footage, extra hooks or variations, and production expenses can affect a quote.",
     "Learn how to package your offer, respond to counteroffers, negotiate project details, and communicate boundaries.",
     "Use the pricing calculator to work through the scope of a project."]],
-  ["Your Content System", "Keep your content and brand projects organized.", [
-    "Set up a simple system to plan, film, organize, and keep track of your content, so every project stays clear from brief to final files."]],
   ["Creator Money 101", "Learn what to do with your money once brands start paying you.", [
     "Making money with brands is only half of it. Once the payments start coming in, most creators don’t know what to do next, and this is the part almost nobody in the creator space teaches.",
     "Creator Money 101 shows you how to manage the money you make and set yourself up for success financially: how much to pay yourself, how to separate your business and personal money, and how to keep your records organized.",
@@ -515,12 +540,12 @@ const CURRICULUM = [
 ];
 
 const FAQ = [
-  ["I’ve never worked with a brand before. Can I still do this?", "Yes. The Collab Code starts at the very beginning with Your First Five Steps, then walks you through creating samples, building your portfolio, and sending your first pitches."],
-  ["Do I need a big following?", "No. UGC focuses on content a brand can use, while influencer collaborations also involve your audience. You’ll learn how to approach both, whatever your follower count."],
-  ["What if I’m brand new to creating content?", "That’s okay. You’ll learn what to create and how to film it: formats, hooks, scripting, lighting, and framing, starting with the phone you already have."],
-  ["I don’t have a portfolio yet. Is that okay?", "Yes. You’ll build it inside, using the included portfolio template and samples you create with products you already own."],
-  ["Do I need expensive equipment?", "No. You can begin with your phone. The filming lessons help you work on lighting, framing, angles, and showing the product clearly."],
-  ["I’m completely new to the brand world. Where do I even start?", "With Your First Five Steps: choose your direction, create your first samples, build your portfolio, prepare to approach brands, and send your first pitches."],
+  ["I’ve never worked with a brand before. Can I still do this?", "Yes! The Collab Code starts at the very beginning with Your First Five Steps, then walks you through creating samples, building your portfolio, and sending your first pitches. It’s perfect if you’re brand new, and there are lessons for creators with more experience who are ready to scale, too."],
+  ["Do I need a big following?", "No! UGC focuses on content a brand can use, so no following is required. Influencer collaborations also use your audience, and you’ll learn how to approach both."],
+  ["What if I’m brand new to creating content?", "That’s totally okay! You’ll learn what to create and how to film it: formats, hooks, scripting, lighting, and framing, starting with the phone you already have. No experience required."],
+  ["I don’t have a portfolio yet. Is that okay?", "Yes! You’ll get a free portfolio template to showcase the samples you create with products you already own."],
+  ["Do I need expensive equipment?", "Not at all! You can begin with your phone. The filming lessons help you nail lighting, framing, and angles, and show off a product beautifully."],
+  ["I’m completely new to the brand world. Where do I even start?", "With Your First Five Steps! We’ll help you choose your direction, create your first samples, build your portfolio, approach brands, and send your first pitches."],
   ["Are all lessons available when I join?", CONFIG.faqAvailability],
   ["How long will I have access?", CONFIG.faqAccess],
   ["What is the refund policy?", CONFIG.faqRefund]
@@ -588,7 +613,7 @@ document.getElementById("foot-links").innerHTML = Object.entries(CONFIG.footer).
     [".qs li", "up"],
     [".creators .wrap > *", ""],
     [".stat", "up"],
-    [".file", "up"],
+    [".file, .resources", "up"],
     ["#access .ticket > *", ""],
     [".faq > .label, .faq details, .faq-cta", "up"],
     [".foot-name", "up"],
