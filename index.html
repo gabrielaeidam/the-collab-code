@@ -386,7 +386,7 @@ footer .label { color: #d9cbbd; }
 
       <div class="files" id="files"></div>
       <div class="resources">
-        <div class="res-head"><h3>Free resources included to help you get started.</h3><span class="res-value">A $200 value, yours free</span></div>
+        <div class="res-head"><h3>Free resources included to help you get started.</h3><span class="res-value">5 digital resources, yours free</span></div>
         <ul class="res-list">
           <li><span class="res-name">Portfolio template</span><span>Build a portfolio that gives brands a clear look at your work.</span></li>
           <li><span class="res-name">Pricing calculator</span><span>Work through your project scope and additional fees.</span></li>
@@ -437,7 +437,7 @@ footer .label { color: #d9cbbd; }
       <div class="faq" id="faq">
         <span class="label lined">FAQ</span>
         <div id="faq-list"></div>
-        <div class="faq-cta"><a class="btn" data-checkout href="https://commas.com/fnl/org_con9DB0UBBOH/checkout-page-pnc1i218?fb_from_landing=1">Request Access <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a></div>
+        <div class="faq-cta"><a class="btn" data-checkout href="https://commas.com/fnl/org_con9DB0UBBOH/checkout-page-pnc1i218?fb_from_landing=1">Get Access <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a></div>
       </div>
     </div>
   </section>
@@ -473,20 +473,21 @@ footer .label { color: #d9cbbd; }
    Anything left empty stays hidden from visitors.
    ============================================================ */
 const CONFIG = {
+  metaPixelId: "",          // Meta Pixel ID (numbers only). While empty, no tracking code loads.
   price: "$157",            // shown only in the purchase section at the bottom
   checkoutUrl: "https://commas.com/fnl/org_con9DB0UBBOH/checkout-page-pnc1i218?fb_from_landing=1",          // Commas / Stan checkout link. Until set, buttons scroll to the purchase card.
   courseUrl: "",            // where "Enter The Collab Code" goes after purchase
   // Gaby's numbers, shown right under "Hi, I'm Gaby". Update from Instagram/TikTok insights.
   // [number, suffix, label]. Suffix shows in blue, e.g. "K+", "M+", "+".
-  stats: [[82, "K+", "Instagram followers"], [62, "+", "Brands worked with"], [150, "K+", "Earned from brand deals", "$"]],
+  stats: [[82, "K+", "Instagram followers"], [62, "+", "Brands worked with"], [100, "+", "Paid brand collaborations"]],
   // While the real numbers are 0, preview the count-up with these sample targets (marked "Sample numbers" on the page).
   sampleStats: [100, 50, 1],
-  faqAvailability: "",      // "Are all lessons available when I join?"
+  faqAvailability: "You have lifetime access to all new lessons and resources that get added over time.",      // "Are all lessons available when I join?"
   faqAccess: "You get lifetime access to The Collab Code, so you can go through the lessons at your own pace and come back to them anytime.",            // "How long will I have access?"
-  faqRefund: "",            // "What is the refund policy?"
+  faqRefund: "All sales are final. Because you get access to the lessons and templates right away, we don’t offer refunds. Please read the full Refund Policy, linked at the bottom of this page, before you buy.",            // "What is the refund policy?"
   accessTerms: [],          // e.g. [["Access", "..."], ["Release schedule", "..."]]
   checkoutNote: "",         // short true line under the buy button, e.g. "Instant access"
-  footer: { memberLogin: "", support: "", terms: "", privacy: "", refund: "" }
+  footer: { memberLogin: "", support: "mailto:gaby@thecollabcode.co", terms: "/terms.html", privacy: "/privacy.html", refund: "/refund.html" }
 };
 
 const CURRICULUM = [
@@ -518,9 +519,9 @@ const CURRICULUM = [
   ["Build Your Portfolio", "Give brands a clear look at your work.", [
     "After learning how to create brand-worthy sample content, you’ll learn how to:",
     ["Choose the samples that show off your skills", "Organize the essential information brands look for", "Build your portfolio using the included template"],
-    "You’ll also get the exact portfolio template behind over $60,000 in brand deals and UGC work, included free with The Collab Code. No starting from scratch, just plug in your work and start pitching."]],
+    "You’ll also get the exact portfolio template I use to land brand collaborations, included free with The Collab Code. No starting from scratch, just plug in your work and start pitching."]],
   ["The TikTok Edit", "Turn TikTok into a steady source of PR packages and brand deals.", [
-    "Learn how to use TikTok to show what you can create, get on brands’ radar, and open doors to collaborations, from a creator who is landing five-figure brand deals on TikTok right now with under 20,000 followers.",
+    "Learn how to use TikTok to show what you can create, get on brands’ radar, and open doors to collaborations, from a TikTok creator who is breaking ground in the space right now.",
     "You’ll get the inside scoop on how to keep PR packages coming in, land brand deals straight from TikTok, and get brands to sponsor your videos and ads, including on TikTok Shop."]],
   ["The Pitch Edit", "The pitches brands actually reply to, from subject line to follow-up.", [
     "This isn’t a generic email template. You’ll get the actual pitch formats that get brands to reply: the subject lines that get opened, the strategic email structures that make your idea easy to say yes to, and how to tailor each one to the brand.",
@@ -654,6 +655,26 @@ new IntersectionObserver(([e]) => { accessOn = e.isIntersecting; sync(); }, { ro
 if (location.hash === "#youre-in" && CONFIG.courseUrl) {
   document.getElementById("enter").href = CONFIG.courseUrl;
   document.getElementById("success").hidden = false;
+}
+
+// Meta Pixel: loads only when CONFIG.metaPixelId is filled in.
+// Reports the page view and the checkout start, and carries the ad's click ID and UTM labels to checkout.
+if (CONFIG.metaPixelId) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
+  fbq("init", CONFIG.metaPixelId);
+  fbq("track", "PageView");
+  const pxValue = parseFloat(String(CONFIG.price).replace(/[^0-9.]/g, ""));
+  const pxItem = Object.assign({ content_name: "The Collab Code", currency: "USD" }, pxValue ? { value: pxValue } : {});
+  fbq("track", "ViewContent", pxItem);
+  const pxExtra = new URLSearchParams();
+  new URLSearchParams(location.search).forEach((v, k) => { if (k === "fbclid" || k.indexOf("utm_") === 0) pxExtra.set(k, v); });
+  document.addEventListener("click", e => {
+    const a = e.target.closest && e.target.closest("a[data-checkout]");
+    if (!a || !CONFIG.checkoutUrl) return;
+    fbq("track", "InitiateCheckout", pxItem);
+    const q = pxExtra.toString();
+    if (q && a.href.indexOf("fbclid=") === -1 && a.href.indexOf("utm_") === -1) a.href += (a.href.indexOf("?") > -1 ? "&" : "?") + q;
+  });
 }
 </script>
 
