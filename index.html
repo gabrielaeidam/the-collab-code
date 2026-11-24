@@ -256,7 +256,8 @@ details[open] .plus::after { transform: rotate(0deg); }
 
 /* ACCESS + FAQ */
 .access { background: var(--cream); }
-.access-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.access-grid { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.access-grid .ticket { width: 100%; max-width: 680px; }
 .access .polaroid { transform: rotate(-2.5deg); max-width: 380px; width: 100%; justify-self: center; margin-top: -28px; }
 .access .polaroid img { aspect-ratio: .82; }
 .ticket { background: var(--white); border-radius: 10px; padding: clamp(26px, 4vw, 48px); display: grid; gap: 18px; border: 1px solid #c4c9ce; box-shadow: 0 0 0 5px var(--white), 0 0 0 6px var(--steel-2), 0 40px 70px -44px rgb(58 42 33 / 45%); position: relative; }
@@ -455,11 +456,6 @@ footer .label { color: #d9cbbd; }
   <section class="sec access" id="access">
     <div class="wrap">
       <div class="access-grid">
-        <figure class="polaroid">
-          <svg class="clip" viewBox="0 0 22 58" aria-hidden="true"><path d="M6 44V10a5 5 0 0 1 10 0v38a8 8 0 0 1-16 0V14" fill="none" stroke="url(#cg)" stroke-width="2.2" stroke-linecap="round"/></svg>
-          <img src="access-photo.jpg" alt="A Creator Access badge on a lanyard resting on a laptop keyboard, beside a silver lipstick" style="object-position: 50% 30%">
-          <figcaption class="cap"><span class="label">Access granted</span><span class="barcode"></span></figcaption>
-        </figure>
         <div class="ticket">
           <span class="label">Creator access</span>
           <h2>Your next move starts here.</h2>
